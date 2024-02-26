@@ -4,11 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Описание вашего сайта">
+    <meta name="robots" content="index, follow">
+    <meta property="og:title" content="Заголовок страницы">
+    <meta property="og:description" content="Описание вашего сайта">
+    <meta property="og:image" content="">
     <title>Автомобильные коврики EVA в Украине Компания EvaKovrik</title>
-    <link rel="stylesheet" href="../static/js/swiper/swiper-bundle.min.css" />
-    <link rel="stylesheet" href="../static/js/nice-select2/nice-select2.css">
-    <link rel="stylesheet" href="../static/js/tingle/tingle.min.css">
-    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+    <link rel="stylesheet" href="../static/js/vendors/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="../static/js/vendors/nice-select2/nice-select2.css">
+    <link rel="stylesheet" href="../static/js/vendors/tingle/tingle.min.css">
+    <link rel="stylesheet" href="../static/css/style.min.css">
 </head>
 
 <body>
@@ -245,10 +252,10 @@
             </section>
             <section class="get-gift section">
                 <div class="container">
-                    <h2 class="get-gift__title section__title">Fill out the form below and get the footrest as a gift.
-                        as a gift.</h2>
-                    <form name="get-gift" method="post" class="get-gift__form">
-                        <input type="text" name="email" placeholder="Phone number*" required type="tel"
+                    <h2 class="get-gift__title section__title">Fill out the form below and get the footrest as a gift
+                    </h2>
+                    <form name="get-gift" method="post" id="gift-form" class="get-gift__form">
+                        <input type="text" name="user-phone" placeholder="Phone number*" required type="tel"
                             class="input get-gift__input">
                         <button type="submit" class="button get-gift__button">Get advice</button>
                     </form>
@@ -333,7 +340,7 @@
                                 <div class="constructor-step__fields">
                                     <h4 class="constructor-step__field-title">Fill out the form to verify:
                                     </h4>
-                                    <select class="select constructor-step__select constructor-step__field"
+                                    <select required class="select constructor-step__select constructor-step__field"
                                         name="carMake" id="car-make">
                                         <option selected disabled value="none">Car make</option>
                                         <option value="98">Acura</option>
@@ -394,12 +401,12 @@
                                         <option value="84">Volkswagen</option>
                                         <option value="85">Volvo</option>
                                     </select>
-                                    <select class="select constructor-step__select constructor-step__field"
+                                    <select required class="select constructor-step__select constructor-step__field"
                                         name="carModel" id="car-model" required>
                                         <option selected="true" value="none" disabled="disabled">Car model
                                         </option>
                                     </select>
-                                    <select class="select constructor-step__select constructor-step__field"
+                                    <select required class="select constructor-step__select constructor-step__field"
                                         name="carYear" id="car-year" required>
                                         <option selected="true" value="none" disabled="disabled">Year
                                         </option>
@@ -767,7 +774,7 @@
                         back as soon as possible.
                         as soon as possible:
                     </p>
-                    <form action="" method="post" class="feedback-form">
+                    <form action="" method="post" id="feedback-form" class="feedback-form">
                         <input type="text" required name="user-name" class="feedback-form__input"
                             placeholder="Your name*">
                         <input type="email" required name="user-email" class="feedback-form__input"
@@ -811,12 +818,13 @@
         </footer>
     </div>
 
-    <script src="../static/js/swiper/swiper-bundle.min.js"></script>
-    <script src="../static/js/nice-select2/nice-select2.js"></script>
-    <script src="../static/js/tingle/tingle.min.js"></script>
+    <script src="../static/js/vendors/swiper/swiper-bundle.min.js"></script>
+    <script src="../static/js/vendors/nice-select2/nice-select2.js"></script>
+    <script src="../static/js/vendors/tingle/tingle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <script src="../static/js/works-slider.js"></script>
     <script src="../static/js/modals.js"></script>
-    <script src="../static/js/script.js"></script>
+    <script src="../static/js/script.min.js"></script>
 </body>
 
 </html>

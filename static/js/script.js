@@ -160,42 +160,104 @@ thrustBearerCheck.addEventListener("change", (e) => {
   counstructorUserData.hasThrust = e.target.checked;
 });
 
-//handle submitting constructor form
+//handle submitting forms
 
 const constructorForm = document.getElementById("price-constructor-form");
+const giftForm = document.getElementById("gift-form");
+const feedbackForm = document.getElementById("feedback-form");
 
 const baseUrl = "http://127.0.0.1:5000";
+
+const submitToast = {
+  text: "Your message was sent successfully!",
+  duration: 6000,
+  close: true,
+  gravity: "bottom",
+  position: "right",
+  stopOnFocus: true,
+  className: "form-submit-toast",
+};
+
+async function sendPost(data, url) {
+  return fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else throw new Error("Something went wrong!");
+  });
+}
+
+feedbackForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const userEmail = e.target["user-email"];
+  const userName = e.target["user-name"];
+  const userMessage = e.target["user-message"];
+
+  // const res = await sendPost(
+  //   {
+  //     userEmail: userEmail,
+  //     userName: userName.value,
+  //     userMessage: userMessage.value,
+  //   },
+  //   baseUrl + "/questions"
+  // );
+  // console.log(res);
+  Toastify({
+    ...submitToast,
+    text: "Your message was sent successfully!",
+  }).showToast();
+
+  userName.value = "";
+  userEmail.value = "";
+  userMessage.value = "";
+});
+
+giftForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const userPhone = e.target["user-phone"];
+
+  // const res = await sendPost(
+  //   {
+  //     userPhone: userPhone.value,
+  //   },
+  //   baseUrl + "/phone-number"
+  // );
+  // console.log(res);
+  Toastify({
+    ...submitToast,
+  }).showToast();
+
+  userPhone.value = "";
+});
 
 constructorForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const userName = e.target["user-name"].value;
-  const userEmail = e.target["user-email"].value;
-  const userPhone = e.target["user-phone"].value;
+  const userName = e.target["user-name"];
+  const userEmail = e.target["user-email"];
+  const userPhone = e.target["user-phone"];
 
   counstructorUserData = {
     ...counstructorUserData,
-    userName,
-    userEmail,
-    userPhone,
+    userName: userName.value,
+    userEmail: userEmail.value,
+    userPhone: userPhone.value,
   };
 
-  fetch(`${baseUrl}/order`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      // mode: "no-cors",
-      // credentials: "include",
-      // "Access-Control-Allow-Origin": baseUrl,
-    },
-    body: JSON.stringify(counstructorUserData),
-  })
-    .then((res) => {
-      if (res.ok) {
-        console.log(res);
-        return res.json();
-      } else throw new Error("Kakaja-to huinia");
-    })
-    .then((data) => console.log(data))
-    .catch((err) => console.log(err));
+  // const res = await sendPost(counstructorUserData, baseUrl + "/order");
+  // console.log(res);
+  Toastify({
+    ...submitToast,
+  }).showToast();
+
+  userName.value = "";
+  userEmail.value = "";
+  userPhone.value = "";
 });

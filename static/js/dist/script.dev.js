@@ -175,48 +175,130 @@ document.addEventListener("click", function (e) {
 
 thrustBearerCheck.addEventListener("change", function (e) {
   counstructorUserData.hasThrust = e.target.checked;
-}); //handle submitting constructor form
+}); //handle submitting forms
 
 var constructorForm = document.getElementById("price-constructor-form");
+var giftForm = document.getElementById("gift-form");
+var feedbackForm = document.getElementById("feedback-form");
 var baseUrl = "http://127.0.0.1:5000";
-constructorForm.addEventListener("submit", function _callee3(e) {
-  var userName, userEmail, userPhone;
-  return regeneratorRuntime.async(function _callee3$(_context4) {
+var submitToast = {
+  text: "Your message was sent successfully!",
+  duration: 6000,
+  close: true,
+  gravity: "bottom",
+  position: "right",
+  stopOnFocus: true,
+  className: "form-submit-toast"
+};
+
+function sendPost(data, url) {
+  return regeneratorRuntime.async(function sendPost$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
-          e.preventDefault();
-          userName = e.target["user-name"].value;
-          userEmail = e.target["user-email"].value;
-          userPhone = e.target["user-phone"].value;
-          counstructorUserData = _objectSpread({}, counstructorUserData, {
-            userName: userName,
-            userEmail: userEmail,
-            userPhone: userPhone
-          });
-          fetch("".concat(baseUrl, "/order"), {
+          return _context4.abrupt("return", fetch(url, {
             method: "POST",
             headers: {
-              "Content-Type": "application/json" // mode: "no-cors",
-              // credentials: "include",
-              // "Access-Control-Allow-Origin": baseUrl,
-
+              "Content-Type": "application/json"
             },
-            body: JSON.stringify(counstructorUserData)
+            body: JSON.stringify(data)
           }).then(function (res) {
             if (res.ok) {
-              console.log(res);
               return res.json();
-            } else throw new Error("Kakaja-to huinia");
-          }).then(function (data) {
-            return console.log(data);
-          })["catch"](function (err) {
-            return console.log(err);
-          });
+            } else throw new Error("Something went wrong!");
+          }));
 
-        case 6:
+        case 1:
         case "end":
           return _context4.stop();
+      }
+    }
+  });
+}
+
+feedbackForm.addEventListener("submit", function _callee3(e) {
+  var userEmail, userName, userMessage;
+  return regeneratorRuntime.async(function _callee3$(_context5) {
+    while (1) {
+      switch (_context5.prev = _context5.next) {
+        case 0:
+          e.preventDefault();
+          userEmail = e.target["user-email"];
+          userName = e.target["user-name"];
+          userMessage = e.target["user-message"]; // const res = await sendPost(
+          //   {
+          //     userEmail: userEmail,
+          //     userName: userName.value,
+          //     userMessage: userMessage.value,
+          //   },
+          //   baseUrl + "/questions"
+          // );
+          // console.log(res);
+
+          Toastify(_objectSpread({}, submitToast, {
+            text: "Your message was sent successfully!"
+          })).showToast();
+          userName.value = "";
+          userEmail.value = "";
+          userMessage.value = "";
+
+        case 8:
+        case "end":
+          return _context5.stop();
+      }
+    }
+  });
+});
+giftForm.addEventListener("submit", function _callee4(e) {
+  var userPhone;
+  return regeneratorRuntime.async(function _callee4$(_context6) {
+    while (1) {
+      switch (_context6.prev = _context6.next) {
+        case 0:
+          e.preventDefault();
+          userPhone = e.target["user-phone"]; // const res = await sendPost(
+          //   {
+          //     userPhone: userPhone.value,
+          //   },
+          //   baseUrl + "/phone-number"
+          // );
+          // console.log(res);
+
+          Toastify(_objectSpread({}, submitToast)).showToast();
+          userPhone.value = "";
+
+        case 4:
+        case "end":
+          return _context6.stop();
+      }
+    }
+  });
+});
+constructorForm.addEventListener("submit", function _callee5(e) {
+  var userName, userEmail, userPhone;
+  return regeneratorRuntime.async(function _callee5$(_context7) {
+    while (1) {
+      switch (_context7.prev = _context7.next) {
+        case 0:
+          e.preventDefault();
+          userName = e.target["user-name"];
+          userEmail = e.target["user-email"];
+          userPhone = e.target["user-phone"];
+          counstructorUserData = _objectSpread({}, counstructorUserData, {
+            userName: userName.value,
+            userEmail: userEmail.value,
+            userPhone: userPhone.value
+          }); // const res = await sendPost(counstructorUserData, baseUrl + "/order");
+          // console.log(res);
+
+          Toastify(_objectSpread({}, submitToast)).showToast();
+          userName.value = "";
+          userEmail.value = "";
+          userPhone.value = "";
+
+        case 9:
+        case "end":
+          return _context7.stop();
       }
     }
   });
