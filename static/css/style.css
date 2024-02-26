@@ -638,6 +638,11 @@ PRICE CONSTRUCTOR
   align-self: end;
 }
 
+.card-step__total-price span {
+  text-decoration: line-through;
+  font-size: 0.875rem;
+}
+
 .card-step__accessory-info {
   text-decoration: none;
   color: var(--clr-primary);
