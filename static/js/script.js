@@ -303,24 +303,18 @@ feedbackForm.addEventListener("submit", async (e) => {
   const userName = e.target["user-name"];
   const userMessage = e.target["user-message"];
 
-  // const res = await sendPost(
-  //   {
-  //     userEmail: userEmail,
-  //     userName: userName.value,
-  //     userMessage: userMessage.value,
-  //     date: getCurrentDate(),
-  //   },
-  //   "/questions"
-  // );
-  console.log({
-    userEmail: userEmail,
-    userName: userName.value,
-    userMessage: userMessage.value,
-    date: getCurrentDate(),
-  });
+  const res = await sendPost(
+    {
+      userEmail: userEmail,
+      userName: userName.value,
+      userMessage: userMessage.value,
+      date: getCurrentDate(),
+    },
+    "/questions"
+  );
   Toastify({
     ...submitToast,
-    text: "Your message was sent successfully!",
+    text: res.message,
   }).showToast();
 
   userName.value = "";
@@ -337,19 +331,16 @@ giftForm.addEventListener("submit", async (e) => {
 
   const userPhone = e.target["user-phone"];
 
-  // const res = await sendPost(
-  //   {
-  //     userPhone: userPhone.value,
-  //     date: getCurrentDate(),
-  //   },
-  //   "http://127.0.0.1/evacode1/phone-number"
-  // );
-  console.log({
-    userPhone: userPhone.value,
-    date: getCurrentDate(),
-  });
+  const res = await sendPost(
+    {
+      userPhone: userPhone.value,
+      date: getCurrentDate(),
+    },
+    "/phone-number"
+  );
   Toastify({
     ...submitToast,
+    text: res.message,
   }).showToast();
 
   userPhone.value = "";
@@ -370,10 +361,10 @@ constructorForm.addEventListener("submit", async (e) => {
     date: getCurrentDate(),
   };
 
-  // const res = await sendPost(counstructorUserData, "/order");
-  console.log(counstructorUserData);
+  const res = await sendPost(counstructorUserData, "/order");
   Toastify({
     ...submitToast,
+    text: res.message,
   }).showToast();
 
   userName.value = "";

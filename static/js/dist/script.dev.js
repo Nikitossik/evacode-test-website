@@ -295,7 +295,7 @@ function getCurrentDate() {
 }
 
 feedbackForm.addEventListener("submit", function _callee3(e) {
-  var valid, userEmail, userName, userMessage;
+  var valid, userEmail, userName, userMessage, res;
   return regeneratorRuntime.async(function _callee3$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
@@ -313,30 +313,25 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
         case 4:
           userEmail = e.target["user-email"];
           userName = e.target["user-name"];
-          userMessage = e.target["user-message"]; // const res = await sendPost(
-          //   {
-          //     userEmail: userEmail,
-          //     userName: userName.value,
-          //     userMessage: userMessage.value,
-          //     date: getCurrentDate(),
-          //   },
-          //   "/questions"
-          // );
-
-          console.log({
+          userMessage = e.target["user-message"];
+          _context5.next = 9;
+          return regeneratorRuntime.awrap(sendPost({
             userEmail: userEmail,
             userName: userName.value,
             userMessage: userMessage.value,
             date: getCurrentDate()
-          });
+          }, "/questions"));
+
+        case 9:
+          res = _context5.sent;
           Toastify(_objectSpread({}, submitToast, {
-            text: "Your message was sent successfully!"
+            text: res.message
           })).showToast();
           userName.value = "";
           userEmail.value = "";
           userMessage.value = "";
 
-        case 12:
+        case 14:
         case "end":
           return _context5.stop();
       }
@@ -344,7 +339,7 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
   });
 });
 giftForm.addEventListener("submit", function _callee4(e) {
-  var valid, userPhone;
+  var valid, userPhone, res;
   return regeneratorRuntime.async(function _callee4$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
@@ -360,22 +355,21 @@ giftForm.addEventListener("submit", function _callee4(e) {
           return _context6.abrupt("return");
 
         case 4:
-          userPhone = e.target["user-phone"]; // const res = await sendPost(
-          //   {
-          //     userPhone: userPhone.value,
-          //     date: getCurrentDate(),
-          //   },
-          //   "http://127.0.0.1/evacode1/phone-number"
-          // );
-
-          console.log({
+          userPhone = e.target["user-phone"];
+          _context6.next = 7;
+          return regeneratorRuntime.awrap(sendPost({
             userPhone: userPhone.value,
             date: getCurrentDate()
-          });
-          Toastify(_objectSpread({}, submitToast)).showToast();
+          }, "/phone-number"));
+
+        case 7:
+          res = _context6.sent;
+          Toastify(_objectSpread({}, submitToast, {
+            text: res.message
+          })).showToast();
           userPhone.value = "";
 
-        case 8:
+        case 10:
         case "end":
           return _context6.stop();
       }
@@ -383,7 +377,7 @@ giftForm.addEventListener("submit", function _callee4(e) {
   });
 });
 constructorForm.addEventListener("submit", function _callee5(e) {
-  var userName, userEmail, userPhone;
+  var userName, userEmail, userPhone, res;
   return regeneratorRuntime.async(function _callee5$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
@@ -397,15 +391,20 @@ constructorForm.addEventListener("submit", function _callee5(e) {
             userEmail: userEmail.value,
             userPhone: userPhone.value,
             date: getCurrentDate()
-          }); // const res = await sendPost(counstructorUserData, "/order");
+          });
+          _context7.next = 7;
+          return regeneratorRuntime.awrap(sendPost(counstructorUserData, "/order"));
 
-          console.log(counstructorUserData);
-          Toastify(_objectSpread({}, submitToast)).showToast();
+        case 7:
+          res = _context7.sent;
+          Toastify(_objectSpread({}, submitToast, {
+            text: res.message
+          })).showToast();
           userName.value = "";
           userEmail.value = "";
           userPhone.value = "";
 
-        case 10:
+        case 12:
         case "end":
           return _context7.stop();
       }

@@ -39,7 +39,7 @@ def create_app():
             msg.body = f'Conlultation by phone number\nClients phone number: {user_phone}'
 
             mail.send(msg)
-            return True, 'Your phone number sent successfully'
+            return True, 'Your request was sent successfully!'
         except Exception as e:
             return False, str(e)
 
@@ -78,7 +78,7 @@ def create_app():
 
 
             mail.send(msg)
-            return True, 'Your order sent successfully'
+            return True, 'Your request was sent successfully!'
         except Exception as e:
             return False, str(e)
         
@@ -104,7 +104,7 @@ def create_app():
             msg.body = f'Clients Name: {user_name}\nClients Email: {user_email}\nClients Question: {user_message}'
 
             mail.send(msg)
-            return True, 'Your question sent successfully'
+            return True, 'Your message was sent successfully!'
         except Exception as e:
             return False, str(e)
 
