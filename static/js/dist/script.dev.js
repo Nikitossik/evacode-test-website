@@ -36,6 +36,9 @@ function slideTo(toStepId) {
   var newActiveTab = document.querySelector(".price-constructor__step[data-step-id=\"".concat(toStepId, "\"]"));
   currentTab.classList.remove("price-constructor__step--active");
   newActiveTab.classList.add("price-constructor__step--active");
+  newActiveTab.scrollIntoView({
+    behavior: "smooth"
+  });
   navigateTo(toStepId);
 } // global object of constructor answers
 
@@ -246,10 +249,10 @@ var feedbackForm = document.getElementById("feedback-form");
 var feedbackPristine = new Pristine(feedbackForm, globalPristineConfig);
 var submitToast = {
   text: "Your message was sent successfully!",
-  duration: 6000,
+  duration: 100000,
   close: true,
   gravity: "bottom",
-  position: "right",
+  position: "center",
   stopOnFocus: true,
   className: "form-submit-toast"
 };

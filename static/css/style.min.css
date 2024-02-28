@@ -186,10 +186,16 @@ textarea {
   margin-bottom: 0.5rem;
 }
 
-.form-submit-toast {
-  padding: 1rem;
+.toastify.form-submit-toast {
+  padding: 1.5rem;
   background: var(--clr-primary);
   color: #fff;
+  font-size: 1.125rem;
+}
+
+.toastify.form-submit-toast .toast-close {
+  margin-left: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 @media (max-width: 48em) {

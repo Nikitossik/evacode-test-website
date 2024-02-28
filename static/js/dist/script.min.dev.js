@@ -26,7 +26,9 @@ function slidePrev() {
 function slideTo(e) {
   var t = document.querySelector(".price-constructor__step--active"),
       r = document.querySelector(".price-constructor__step[data-step-id=\"".concat(e, "\"]"));
-  t.classList.remove("price-constructor__step--active"), r.classList.add("price-constructor__step--active"), navigateTo(e);
+  t.classList.remove("price-constructor__step--active"), r.classList.add("price-constructor__step--active"), r.scrollIntoView({
+    behavior: "smooth"
+  }), navigateTo(e);
 }
 
 var counstructorUserData = {
@@ -154,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function _callee() {
     }
   });
 }), carMakeSelectEl.addEventListener("change", function _callee2(e) {
-  var t, r, o, a;
+  var t, r, o, c;
   return regeneratorRuntime.async(function _callee2$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
@@ -165,8 +167,8 @@ document.addEventListener("DOMContentLoaded", function _callee() {
           return regeneratorRuntime.awrap(getModelsByMake(r));
 
         case 4:
-          a = _context3.sent;
-          a && (carModelSelectEl.innerHTML = "<option selected value disabled>Car model</option>", a.forEach(function (e) {
+          c = _context3.sent;
+          c && (carModelSelectEl.innerHTML = "<option selected value disabled>Car model</option>", c.forEach(function (e) {
             var t = "<option value=\"".concat(e.name, "\">").concat(e.name, "</option>");
             carModelSelectEl.insertAdjacentHTML("beforeend", t);
           }), carModelSelect.update());
@@ -190,13 +192,12 @@ var constructorForm = document.querySelector(".price-constructor__step[data-step
     giftPristine = new Pristine(giftForm, globalPristineConfig),
     feedbackForm = document.getElementById("feedback-form"),
     feedbackPristine = new Pristine(feedbackForm, globalPristineConfig),
-    baseUrl = "http://127.0.0.1:5000",
     submitToast = {
   text: "Your message was sent successfully!",
-  duration: 6e3,
+  duration: 1e5,
   close: !0,
   gravity: "bottom",
-  position: "right",
+  position: "center",
   stopOnFocus: !0,
   className: "form-submit-toast"
 };
@@ -251,20 +252,16 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
 
         case 3:
           t = e.target["user-email"], r = e.target["user-name"], o = e.target["user-message"];
-          _context5.next = 6;
-          return regeneratorRuntime.awrap(sendPost({
+          console.log({
             userEmail: t,
             userName: r.value,
             userMessage: o.value,
             date: getCurrentDate()
-          }, baseUrl + "/questions"));
-
-        case 6:
-          Toastify(_objectSpread({}, submitToast, {
+          }), Toastify(_objectSpread({}, submitToast, {
             text: "Your message was sent successfully!"
           })).showToast(), r.value = "", t.value = "", o.value = "";
 
-        case 7:
+        case 5:
         case "end":
           return _context5.stop();
       }
@@ -287,16 +284,12 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
 
         case 3:
           t = e.target["user-phone"];
-          _context6.next = 6;
-          return regeneratorRuntime.awrap(sendPost({
+          console.log({
             userPhone: t.value,
             date: getCurrentDate()
-          }, baseUrl + "/phone-number"));
+          }), Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "";
 
-        case 6:
-          Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "";
-
-        case 7:
+        case 5:
         case "end":
           return _context6.stop();
       }
@@ -315,14 +308,9 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
             userEmail: r.value,
             userPhone: o.value,
             date: getCurrentDate()
-          });
-          _context7.next = 5;
-          return regeneratorRuntime.awrap(sendPost(counstructorUserData, baseUrl + "/order"));
+          }), console.log(counstructorUserData), Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "", r.value = "", o.value = "";
 
-        case 5:
-          Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "", r.value = "", o.value = "";
-
-        case 6:
+        case 3:
         case "end":
           return _context7.stop();
       }

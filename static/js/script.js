@@ -42,6 +42,9 @@ function slideTo(toStepId) {
 
   currentTab.classList.remove("price-constructor__step--active");
   newActiveTab.classList.add("price-constructor__step--active");
+  newActiveTab.scrollIntoView({
+    behavior: "smooth",
+  });
 
   navigateTo(toStepId);
 }
@@ -254,10 +257,10 @@ const feedbackPristine = new Pristine(feedbackForm, globalPristineConfig);
 
 const submitToast = {
   text: "Your message was sent successfully!",
-  duration: 6000,
+  duration: 100000,
   close: true,
   gravity: "bottom",
-  position: "right",
+  position: "center",
   stopOnFocus: true,
   className: "form-submit-toast",
 };
