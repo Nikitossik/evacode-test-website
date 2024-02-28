@@ -6,15 +6,74 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-document.addEventListener("click", function (e) {
-  var t = e.target.closest("[data-step-id]");
-  if (!t) return;
-  var r = t.dataset.stepId,
-      a = document.querySelector(".price-constructor__step--active"),
-      o = document.querySelector(".price-constructor__step[data-step-id=\"".concat(r, "\"]")),
-      c = document.querySelector(".price-constructor__button--active"),
-      s = document.querySelector(".price-constructor__button[data-step-id=\"".concat(r, "\"]"));
-  a.classList.remove("price-constructor__step--active"), o.classList.add("price-constructor__step--active"), c.classList.remove("price-constructor__button--active"), s.classList.add("price-constructor__button--active");
+function navigateTo(e) {
+  document.querySelector(".price-constructor__nav--active").classList.remove("price-constructor__nav--active");
+  document.querySelector(".price-constructor__mobile-nav--active").classList.remove("price-constructor__mobile-nav--active");
+  document.querySelector(".price-constructor__nav[data-step-id=\"".concat(e, "\"]")).classList.add("price-constructor__nav--active");
+  document.querySelector(".price-constructor__mobile-nav[data-step-id=\"".concat(e, "\"]")).classList.add("price-constructor__mobile-nav--active");
+}
+
+function slideNext() {
+  var e = document.querySelector(".price-constructor__step--active").dataset.stepId;
+  e >= 4 || slideTo(+e + 1);
+}
+
+function slidePrev() {
+  var e = document.querySelector(".price-constructor__step--active").dataset.stepId;
+  e <= 1 || slideTo(+e - 1);
+}
+
+function slideTo(e) {
+  var t = document.querySelector(".price-constructor__step--active"),
+      r = document.querySelector(".price-constructor__step[data-step-id=\"".concat(e, "\"]"));
+  t.classList.remove("price-constructor__step--active"), r.classList.add("price-constructor__step--active"), navigateTo(e);
+}
+
+var counstructorUserData = {
+  carMake: "",
+  carModel: "",
+  carYear: "",
+  rugBackgroundColor: "beige",
+  rugOutlineColor: "beige",
+  setType: ""
+};
+var globalPristineConfig = {
+  classTo: "form-field",
+  errorClass: "form-field--error",
+  errorTextParent: "form-field",
+  errorTextTag: "p",
+  errorTextClass: "form-help"
+},
+    stepForms = document.querySelectorAll(".price-constructor__step[data-step-id]"),
+    pristineStepForms = {};
+stepForms && stepForms.forEach(function (e) {
+  var t = _objectSpread({}, globalPristineConfig);
+
+  3 == e.dataset.stepId && (t.classTo = "constructor-step__title", t.errorTextParent = "constructor-step__title"), pristineStepForms[e.dataset.stepId] = new Pristine(e, t), e.addEventListener("submit", function (t) {
+    t.preventDefault();
+    pristineStepForms[e.dataset.stepId].validate() && slideNext();
+  });
+});
+var mobileNextButton = document.querySelector(".price-constructor__mobile-button--right"),
+    mobilePrevButton = document.querySelector(".price-constructor__mobile-button--left"),
+    navButtons = document.querySelectorAll(".price-constructor__nav");
+mobileNextButton.addEventListener("click", function (e) {
+  var t = document.querySelector(".price-constructor__step--active");
+  pristineStepForms[t.dataset.stepId].validate() && slideNext();
+}), mobilePrevButton.addEventListener("click", function (e) {
+  slidePrev();
+}), navButtons && navButtons.forEach(function (e) {
+  e.addEventListener("click", function (e) {
+    var t = document.querySelector(".price-constructor__step--active").dataset.stepId,
+        r = e.target.dataset.stepId,
+        o = pristineStepForms[t];
+
+    if (t < r) {
+      if (!o.validate()) return;
+    }
+
+    slideTo(r);
+  });
 });
 var carMakeSelectEl = document.getElementById("car-make"),
     carModelSelectEl = document.getElementById("car-model"),
@@ -34,25 +93,16 @@ var carMakeSelectEl = document.getElementById("car-make"),
     bgColorSelect = NiceSelect.bind(bgColorSelectEl),
     outlineColorSelect = NiceSelect.bind(outlineColorSelectEl);
 bgColorSelect.update(), outlineColorSelect.update();
-var counstructorUserData = {
-  carMake: "",
-  carModel: "",
-  carYear: "",
-  rugBackgroundColor: "beige",
-  rugOutlineColor: "beige",
-  setType: "",
-  hasThrust: !1
-};
 var marksUrl = "https://api.auto.ria.com/categories/1/marks/";
 
 function getModelsByMake(e) {
-  var t, r;
+  var t;
   return regeneratorRuntime.async(function getModelsByMake$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           _context.next = 2;
-          return regeneratorRuntime.awrap(fetch("https://api.auto.ria.com/categories/1/marks/" + e + "/models"));
+          return regeneratorRuntime.awrap(fetch(marksUrl + e + "/models"));
 
         case 2:
           t = _context.sent;
@@ -60,10 +110,9 @@ function getModelsByMake(e) {
           return regeneratorRuntime.awrap(t.json());
 
         case 5:
-          r = _context.sent;
-          return _context.abrupt("return", r);
+          return _context.abrupt("return", _context.sent);
 
-        case 7:
+        case 6:
         case "end":
           return _context.stop();
       }
@@ -74,25 +123,26 @@ function getModelsByMake(e) {
 function handleCarSelect(e) {
   var t = e.target,
       r = t.name,
-      a = t.value;
-  counstructorUserData[r] = a;
+      o = t.value;
+  counstructorUserData[r] = o;
 }
 
 function handleColorSelect(e) {
-  handleCarSelect(e), rugImage.src = "../static/images/price-constructor/color-combinations/".concat(counstructorUserData.rugBackgroundColor, "-").concat(counstructorUserData.rugOutlineColor, ".jpg");
+  handleCarSelect(e), rugImage.src = "./static/images/price-constructor/color-combinations/".concat(counstructorUserData.rugBackgroundColor, "-").concat(counstructorUserData.rugOutlineColor, ".jpg");
 }
 
 document.addEventListener("DOMContentLoaded", function _callee() {
-  var e, t, r, a, o;
+  var e, t, _e;
+
   return regeneratorRuntime.async(function _callee$(_context2) {
     while (1) {
       switch (_context2.prev = _context2.next) {
         case 0:
-          e = new Date(), t = 1990, r = +e.getFullYear();
+          e = +new Date().getFullYear();
 
-          for (a = t; a <= r; a++) {
-            o = "<option value=\"".concat(a, "\">").concat(a, "</option>");
-            carYearSelectEl.insertAdjacentHTML("beforeend", o);
+          for (t = 1990; t <= e; t++) {
+            _e = "<option value=\"".concat(t, "\">").concat(t, "</option>");
+            carYearSelectEl.insertAdjacentHTML("beforeend", _e);
           }
 
           carYearSelect.update();
@@ -104,19 +154,19 @@ document.addEventListener("DOMContentLoaded", function _callee() {
     }
   });
 }), carMakeSelectEl.addEventListener("change", function _callee2(e) {
-  var t, r, a, o;
+  var t, r, o, a;
   return regeneratorRuntime.async(function _callee2$(_context3) {
     while (1) {
       switch (_context3.prev = _context3.next) {
         case 0:
-          t = e.target, r = t.value, a = t.options[t.selectedIndex].textContent;
-          counstructorUserData.carMake = a, counstructorUserData.carModel = "";
+          t = e.target, r = t.value, o = t.options[t.selectedIndex].textContent;
+          counstructorUserData.carMake = o, counstructorUserData.carModel = "";
           _context3.next = 4;
           return regeneratorRuntime.awrap(getModelsByMake(r));
 
         case 4:
-          o = _context3.sent;
-          o && (carModelSelectEl.innerHTML = '<option selected="true" value="none" disabled="disabled">Car model</option>', o.forEach(function (e) {
+          a = _context3.sent;
+          a && (carModelSelectEl.innerHTML = "<option selected value disabled>Car model</option>", a.forEach(function (e) {
             var t = "<option value=\"".concat(e.name, "\">").concat(e.name, "</option>");
             carModelSelectEl.insertAdjacentHTML("beforeend", t);
           }), carModelSelect.update());
@@ -127,21 +177,19 @@ document.addEventListener("DOMContentLoaded", function _callee() {
       }
     }
   });
-}), carModelSelectEl.addEventListener("change", handleCarSelect), carYearSelectEl.addEventListener("change", handleCarSelect), bgColorSelectEl.addEventListener("change", handleColorSelect), outlineColorSelectEl.addEventListener("change", handleColorSelect);
-var thrustBearerCheck = document.getElementById("thrust-bearer");
-document.addEventListener("click", function (e) {
+}), carModelSelectEl.addEventListener("change", handleCarSelect), carYearSelectEl.addEventListener("change", handleCarSelect), bgColorSelectEl.addEventListener("change", handleColorSelect), outlineColorSelectEl.addEventListener("change", handleColorSelect), document.addEventListener("click", function (e) {
   var t = e.target.closest(".card-step__button");
   if (!t) return;
   var r = t.value;
-  counstructorUserData[t.name] = r, "ekonom" !== r && (counstructorUserData.hasThrust = !0, thrustBearerCheck.checked = !1);
-  var a = document.querySelector(".card-step--active");
-  a && a.classList.remove("card-step--active"), t.closest(".card-step").classList.add("card-step--active");
-}), thrustBearerCheck.addEventListener("change", function (e) {
-  counstructorUserData.hasThrust = e.target.checked;
+  counstructorUserData[t.name] = r, t.closest(".constructor-step").setTypeInput.setAttribute("value", r);
+  var o = document.querySelector(".card-step--active");
+  o && o.classList.remove("card-step--active"), t.closest(".card-step").classList.add("card-step--active");
 });
-var constructorForm = document.getElementById("price-constructor-form"),
+var constructorForm = document.querySelector(".price-constructor__step[data-step-id='4']"),
     giftForm = document.getElementById("gift-form"),
+    giftPristine = new Pristine(giftForm, globalPristineConfig),
     feedbackForm = document.getElementById("feedback-form"),
+    feedbackPristine = new Pristine(feedbackForm, globalPristineConfig),
     baseUrl = "http://127.0.0.1:5000",
     submitToast = {
   text: "Your message was sent successfully!",
@@ -166,7 +214,7 @@ function sendPost(e, t) {
             body: JSON.stringify(e)
           }).then(function (e) {
             if (e.ok) return e.json();
-            throw Error("Something went wrong!");
+            throw new Error("Something went wrong!");
           }));
 
         case 1:
@@ -177,19 +225,46 @@ function sendPost(e, t) {
   });
 }
 
+function getCurrentDate() {
+  var e = new Date();
+  return new Intl.DateTimeFormat("en-GB", {
+    dateStyle: "short",
+    timeStyle: "short",
+    timeZone: "America/Toronto"
+  }).format(e);
+}
+
 feedbackForm.addEventListener("submit", function _callee3(e) {
-  var t, r, a;
+  var t, r, o;
   return regeneratorRuntime.async(function _callee3$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           e.preventDefault();
-          t = e.target["user-email"], r = e.target["user-name"], a = e.target["user-message"];
-          Toastify(_objectSpread({}, submitToast, {
-            text: "Your message was sent successfully!"
-          })).showToast(), r.value = "", t.value = "", a.value = "";
+
+          if (feedbackPristine.validate()) {
+            _context5.next = 3;
+            break;
+          }
+
+          return _context5.abrupt("return");
 
         case 3:
+          t = e.target["user-email"], r = e.target["user-name"], o = e.target["user-message"];
+          _context5.next = 6;
+          return regeneratorRuntime.awrap(sendPost({
+            userEmail: t,
+            userName: r.value,
+            userMessage: o.value,
+            date: getCurrentDate()
+          }, baseUrl + "/questions"));
+
+        case 6:
+          Toastify(_objectSpread({}, submitToast, {
+            text: "Your message was sent successfully!"
+          })).showToast(), r.value = "", t.value = "", o.value = "";
+
+        case 7:
         case "end":
           return _context5.stop();
       }
@@ -202,30 +277,52 @@ feedbackForm.addEventListener("submit", function _callee3(e) {
       switch (_context6.prev = _context6.next) {
         case 0:
           e.preventDefault();
-          t = e.target["user-phone"];
-          Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "";
+
+          if (giftPristine.validate()) {
+            _context6.next = 3;
+            break;
+          }
+
+          return _context6.abrupt("return");
 
         case 3:
+          t = e.target["user-phone"];
+          _context6.next = 6;
+          return regeneratorRuntime.awrap(sendPost({
+            userPhone: t.value,
+            date: getCurrentDate()
+          }, baseUrl + "/phone-number"));
+
+        case 6:
+          Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "";
+
+        case 7:
         case "end":
           return _context6.stop();
       }
     }
   });
 }), constructorForm.addEventListener("submit", function _callee5(e) {
-  var t, r, a;
+  var t, r, o;
   return regeneratorRuntime.async(function _callee5$(_context7) {
     while (1) {
       switch (_context7.prev = _context7.next) {
         case 0:
           e.preventDefault();
-          t = e.target["user-name"], r = e.target["user-email"], a = e.target["user-phone"];
+          t = e.target["user-name"], r = e.target["user-email"], o = e.target["user-phone"];
           counstructorUserData = _objectSpread({}, counstructorUserData, {
             userName: t.value,
             userEmail: r.value,
-            userPhone: a.value
-          }), Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "", r.value = "", a.value = "";
+            userPhone: o.value,
+            date: getCurrentDate()
+          });
+          _context7.next = 5;
+          return regeneratorRuntime.awrap(sendPost(counstructorUserData, baseUrl + "/order"));
 
-        case 3:
+        case 5:
+          Toastify(_objectSpread({}, submitToast)).showToast(), t.value = "", r.value = "", o.value = "";
+
+        case 6:
         case "end":
           return _context7.stop();
       }

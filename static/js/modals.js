@@ -1,7 +1,7 @@
 const ekonomModalContent = document.getElementById("ekonom-modal");
 const standartModalContent = document.getElementById("standart-modal");
 const premiumModalContent = document.getElementById("premium-modal");
-const thrustModalContent = document.getElementById("thrust-bearer-modal");
+const thrustModalContent = document.getElementById("footrest-modal");
 
 const setModalOptions = {
   closeMethods: ["overlay", "button", "escape"],
@@ -23,7 +23,7 @@ const setModals = {
   "ekonom-modal": ekonomSetModal,
   "standart-modal": standartModal,
   "premium-modal": premiumModal,
-  "thrust-bearer-modal": thrustModal,
+  "footrest-modal": thrustModal,
 };
 
 document.addEventListener("click", (e) => {
