@@ -262,6 +262,9 @@ const submitToast = {
   gravity: "bottom",
   position: "center",
   stopOnFocus: true,
+  offset: {
+    y: 50,
+  },
   className: "form-submit-toast",
 };
 

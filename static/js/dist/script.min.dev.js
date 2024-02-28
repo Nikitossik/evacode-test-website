@@ -199,6 +199,9 @@ var constructorForm = document.querySelector(".price-constructor__step[data-step
   gravity: "bottom",
   position: "center",
   stopOnFocus: !0,
+  offset: {
+    y: 50
+  },
   className: "form-submit-toast"
 };
 
